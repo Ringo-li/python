@@ -12,10 +12,10 @@ if __name__ == "__main__":
     tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # 2.和服务器端套接字建立链接
-    tcp_client_socket.connect(("192.168.33.150", 9090))
+    tcp_client_socket.connect(("192.168.1.7", 9090))
 
     # 3.发送数据到服务端
-    send_content = "你好，我是客户端"
+    send_content = u"你好，我是客户端"
     # python2还要加u
     # send_content = u"你好，我是客户端"
     # 将字符串编码成为二进制
