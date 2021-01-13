@@ -11,6 +11,15 @@ if __name__ == "__main__":
     # SOCK_STREAM：TCP传输协议
     tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+    # 设置端口号复用，即程序结束后立即释放端口号，默认占用2分钟
+    # SOL_SOCKET: 当前socket
+    # SO_RESUERADDR: 复用端口号选项
+    # True：启用端口号复用
+    tcp_client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
+    # 客户端不强制要求绑定端口号
+    tcp_client_socket.bind(("", 8900))
+    
+
     # 2.和服务器端套接字建立链接
     tcp_client_socket.connect(("192.168.1.7", 9090))
 
