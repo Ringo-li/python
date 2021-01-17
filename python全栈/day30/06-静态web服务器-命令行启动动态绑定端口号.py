@@ -1,16 +1,17 @@
 import socket
 import os
 import threading
+import sys
 
 # http协议的web服务器类
 class HttpWebServer(object):
-    def __init__(self):
+    def __init__(self, port):
         # 创建tcp服务端套接字
         tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # 设置端口号复用
         tcp_server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
         # 绑定端口
-        tcp_server_socket.bind(("", 8000))
+        tcp_server_socket.bind(("", port))
         # 设置监听
         tcp_server_socket.listen(128)
         # 把tcp服务器的套接字作为web服务器对象的属性
@@ -103,8 +104,22 @@ class HttpWebServer(object):
 
 
 def main():
+    # 获取终端命令行参数
+    params = sys.argv
+    if len(params) != 2:
+        print("执行命令格式如下：python XXX.py 9000")
+        return
+    
+    # 判断第二个参数是否时数字组成
+    if not params[1].isdigit():
+        print("执行命令格式如下：python XXX.py 9000")
+        return
+    
+    # 代码执行到此，说明命令行参数个数一定是2并且都是数字
+    port = int(params[1])
+    
     # 创建web服务器
-    web_server = HttpWebServer()
+    web_server = HttpWebServer(port)
     # 启动服务器
     web_server.start()
 # 判断是否是主程序
