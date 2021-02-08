@@ -1,11 +1,4 @@
-# 私有权限的作用：
-# 不想让一些属性或者方法继承给子类而设置的权限
-
-# 故事：
-# 小李老了，想把自己的技术全部传授给小小李，但是不想把自己的10个亿资产传给小小李，选择了捐赠。
-
-# 设置私有权限的方法：
-# 在属性和方法名前加两个下划线: __
+# 在python中，一般用get_XX来获取私有属性，用set_XX来设置私有属性
 
 class Master(object):
     def __init__(self):
@@ -21,6 +14,14 @@ class Apprentice(Master):
         # 定义一个私有属性
         self.__money = 1000000000
 
+    # 定义函数，获取私有属性值 get_XX
+    def get_money(self):
+        return self.__money
+
+    # 定义函数，设置私有属性值 set_XX
+    def set_money(self):
+        self.__money = 500
+
     # 定义一个私有方法
     def __print_info(self):
         print('这是私有方法')
@@ -33,5 +34,6 @@ class Tusun(Apprentice):
 
 # 验证
 xiaoxiaoli = Tusun()
-# print(xiaoxiaoli.__money) # 报错
-# xiaoxiaoli.__print_info() # 报错
+print(xiaoxiaoli.get_money())
+xiaoxiaoli.set_money()
+print(xiaoxiaoli.get_money())
