@@ -1,3 +1,5 @@
+from student import *
+
 """
 需求：
     1.能够存储数据
@@ -54,7 +56,8 @@ class ManagerSystem(object):
                 break
 
     # 二、功能函数
-    # 2.1显示功能菜单 --打印功能和序号对应关系，不需要每个对象有自己的显示方式， --静态以节省资源
+    # 2.1显示功能菜单 --打印功能和序号对应关系，不涉及对象和对象数据的使用
+    # 不需要每个对象有自己的显示方式， --静态以节省资源
     @staticmethod
     def show_menu():
         print("-" * 20)
@@ -70,7 +73,18 @@ class ManagerSystem(object):
 
     # 2.2添加学员
     def add_student(self):
-        print("增加学员信息")
+        # 1.用户输入姓名、性别、电话
+        name = input("请输入姓名：")
+        gender = input("性别：")
+        tel = input("电话：")
+        
+        # 2.创建学员对象
+        student = Student(name, gender, tel)
+
+        # 3.将该对象添加到学员列表
+        self.student_list.append(student)
+        print(self.student_list)
+        print(student)
 
     # 2.3删除学员
     def del_student(self):
