@@ -88,7 +88,20 @@ class ManagerSystem(object):
 
     # 2.3删除学员
     def del_student(self):
-        print("删除信息")
+        # 1.用户属于要删除的学员姓名
+        del_name = input('请输入要删除的学员姓名：')
+
+        # 2.如果学名姓名存在，则删除，不存在，则提示无此人
+        for i in self.student_list:
+            if del_name == i.name:
+                self.student_list.remove(i)
+                break
+        # 循环代码正常执行完毕，说明没有删除的对象
+        else:
+            print("查无此人")
+
+        # 打印学员列表，验证删除功能
+        print(self.student_list)
 
     # 2.4修改学员信息
     def modify_student(self):
