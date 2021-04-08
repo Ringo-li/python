@@ -47,7 +47,7 @@ class ManagerSystem(object):
             elif menu_num == 3:
                 self.modify_student()
             elif menu_num == 4:
-                self.search_student  
+                self.search_student()
             elif menu_num == 5:
                 self.show_student()
             elif menu_num == 6:
@@ -105,11 +105,32 @@ class ManagerSystem(object):
 
     # 2.4修改学员信息
     def modify_student(self):
-        print("修改信息")
+        # 1.用户输入学名姓名
+        modify_name = input('请输入需要修改的学员姓名：')
+
+        # 2.遍历列表，如果存在需要修改的学员则修改姓名、性别和电话，不存在提示信息
+        for i in self.student_list:
+            if i.name == modify_name:
+                i.name = input('name:')
+                i.gender = input('gender:')
+                i.tel = input('tel:')
+                print('学员信息修改完毕。姓名：{}，性别：{}，电话：{}'.format(i.name, i.gender, i.tel))
+                break
+        else:
+            print('学员不存在')
 
     # 2.5查询信息
     def search_student(self):
-        print("查询信息")
+        # 1.用户输入学员信息
+        search_name = input('请输入查询的学员姓名：')
+
+        # 2.遍历学员列表，存在则按格式显示信息，不存在提示并退出
+        for i in self.student_list:
+            if search_name == i.name:
+                print('name:{}, gender:{}, tel:{}'.format(i.name, i.gender, i.tel))
+                break
+        else:
+            print('学员不存在')
 
     # 2.6显示所有学员信息
     def show_student(self):
