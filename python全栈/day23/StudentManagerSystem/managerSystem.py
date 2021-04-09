@@ -154,7 +154,20 @@ class ManagerSystem(object):
 
     # 2.8加载学员信息
     def load_students(self):
-        print("加载学员信息")
+        # 1.打开文件：尝试r模式打开学员信息文件，如有报错则新建w
+        try:
+            f = open('student.data', 'r')
+        except:
+            f = open('student.data', 'w')
+
+        # 2.读取文件：格式转换，先将字符串转换为字典，再将字典转换为对象
+        else:
+            data = f.read()
+            new_list = eval(data)
+            self.student_list = [Student(i['name'], i['gender'], i['tel']) for i in new_list]
+        # 3.关闭文件
+        finally:
+            f.close()
     
 
 
