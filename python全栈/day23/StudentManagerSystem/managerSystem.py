@@ -134,11 +134,23 @@ class ManagerSystem(object):
 
     # 2.6显示所有学员信息
     def show_student(self):
-        print("显示所有信息")
+        # 1.打印表头
+        print('姓名\t性别\t电话')
+        # 2.遍历打印学员信息
+        for i in self.student_list:
+            print('{}\t{}\t{}'.format(i.name, i.gender, i.tel))
 
     # 2.7保存信息
     def save_student(self):
-        print("保存信息")
+        # 1.打开文件
+        data_file = open('student.data', 'w')
+        # 2.写入学员信息
+        # 2.1学员对象转换成字典
+        new_list = [i.__dict__ for i in self.student_list]
+        # 2.2文件写入必须是字符串格式
+        data_file.write(str(new_list))
+        # 3.关闭文件
+        data_file.close()
 
     # 2.8加载学员信息
     def load_students(self):
