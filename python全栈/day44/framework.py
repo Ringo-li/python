@@ -12,6 +12,17 @@ def index():
     # 这里返回的是一个元组，括号可以省略
     return status, response_header, data
 
+def not_found():
+    # 状态信息
+    status = "404 Not Found"
+    # 响应头信息
+    response_header = [("Server", "PWS/1.1")]
+    # 响应体
+    # 获取当前时间
+    data = "NOT FOUND"
+    # 这里返回的是一个元组，括号可以省略
+    return status, response_header, data 
+
 # 处理动态资源请求
 def handle_request(env):
     # 获取动态资源请求路径
@@ -22,4 +33,8 @@ def handle_request(env):
         # 获取首页数据
         result = index()
         # 把处理后的结果返回给web服务器，用于web服务器拼接响应报文使用
+        return result
+    else:
+        # 没有找到资源路径，返回404
+        result = not_found()
         return result
