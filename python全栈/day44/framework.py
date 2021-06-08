@@ -7,10 +7,16 @@ def index():
     # 响应头信息
     response_header = [("Server", "PWS/1.1")]
     # 响应体
-    # 获取当前时间
+    # 1.打开指定模板文件，读取模板文件内容
+    with open("static/index.html", "r") as file:
+        file_data = file.read()
+    # 2.查询数据库，替换模板中的变量（{%content%}
+    # 获取当前时间,模拟数据库数据
     data = time.ctime()
+    # 替换变量
+    response_body = file_data.replace("{%content%}", data)
     # 这里返回的是一个元组，括号可以省略
-    return status, response_header, data
+    return status, response_header, response_body
 
 def not_found():
     # 状态信息
