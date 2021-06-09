@@ -1,6 +1,29 @@
 import time
 
 """web框架专门处理动态资源请求"""
+
+# 创建路由列表，每条记录是一个路由，由元组构成
+route_list = [
+    # ("/index.html", index),
+    # ("/center.html", center)
+]
+
+# 创建带有参数的装饰器
+def route(path):
+    # 装饰器
+    def decorator(func):
+        # 当执行装饰器时就需要把路由添加到路由列表里面
+        # 在装饰函数时添加一次路由即可
+        route_list.append((path, func))
+        def inner():
+            result = func()
+            return result
+        return inner
+    # 返回一个装饰器
+    return decorator
+
+
+@route("/index.html")
 def index():
     # 状态信息
     status = "200 OK"
@@ -18,6 +41,7 @@ def index():
     # 这里返回的是一个元组，括号可以省略
     return status, response_header, response_body
 
+@route("/center.html")
 def center():
     # 状态信息
     status = "200 OK"
@@ -41,11 +65,7 @@ def not_found():
     # 这里返回的是一个元组，括号可以省略
     return status, response_header, data 
 
-# 创建路由列表，每条记录是一个路由，由元组构成
-route_list = [
-    ("/index.html", index),
-    ("/center.html", center)
-]
+
 
 # 处理动态资源请求
 def handle_request(env):
