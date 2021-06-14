@@ -1,4 +1,4 @@
-import time
+import json
 import pymysql
 
 """web框架专门处理动态资源请求"""
@@ -24,6 +24,56 @@ def route(path):
         return inner
     # 返回一个装饰器
     return decorator
+
+# 个人数据中心接口
+@route("/center_data.html")
+def center_data():
+    # 从数据库中取数据，然后把数据转换成json格式
+    # 创建数据库连接对象
+    conn = pymysql.connect(host="192.168.33.13",
+                            port=3306,
+                            user="root",
+                            password="123456",
+                            database="stock_db",
+                            charset="utf8")
+    # 获取游标
+    cursor = conn.cursor()
+    # 准备sql
+    sql = """
+     select i.code, i.short, i.chg, i.turnover, i.price, i.highs, f.note_info  
+     from info i inner join focus f on i.id=f.info_id;
+    """
+    # 执行sql
+    cursor.execute(sql)
+    # 获取结果
+    result = cursor.fetchall()
+    print(result)
+    # 将获得的元组转成列表字典
+    center_data_list = [{
+                            "code":row[0],
+                            "short":row[1],
+                            "chg":row[2],
+                            "turnover":row[3],
+                            "price":str(row[4]),
+                            "highs":str(row[5]),
+                            "note_info":row[6]
+                        } for row in result]
+    print(center_data_list)
+    # 把列表字典转换成json
+    # 在控制台显示中文，ensure_ascci=False
+    json_str = json.dumps(center_data_list, ensure_ascii=False)
+    print(json_str)
+    print(type(json_str))
+    # 关闭游标
+    cursor.close()
+    # 关闭连接
+    conn.close()
+    # 页面访问
+    # 状态信息
+    status = "200 OK"
+    # 响应头信息
+    response_header = [("Server", "PWS/1.1"), ("Content-Type", "text/html; charset=utf-8")]
+    return status, response_header, json_str
 
 
 @route("/index.html")
@@ -134,3 +184,6 @@ def handle_request(env):
         # 没有资源数据，返回404
         result = not_found()
         return result
+
+if __name__ == "__main__":
+    center_data()
