@@ -1,4 +1,5 @@
 import time
+import pymysql
 
 """web框架专门处理动态资源请求"""
 
@@ -36,8 +37,45 @@ def index():
     with open("template/index.html", "r") as file:
         file_data = file.read()
     # 2.查询数据库，替换模板中的变量（{%content%}
-    # 获取当前时间,模拟数据库数据
-    data = time.ctime()
+    # 创建连接对象
+    conn = pymysql.connect(host="192.168.33.13",
+                            port=3306,
+                            user="root",
+                            password="123456",
+                            database="stock_db",
+                            charset="utf8")
+
+    # 获取游标
+    cursor = conn.cursor()
+    # 准备sql
+    sql = "select * from info;"
+    # 执行sql
+    cursor.execute(sql)
+    # 获取查询结果
+    result = cursor.fetchall()
+    print(result)
+    # 关闭游标
+    cursor.close()
+    # 关闭连接
+    conn.close()
+
+    # 遍历每一条数据，完成数据的tr标签封装
+    data = ""
+    for row in result:
+        data += """
+        <tr>
+            <td>%s</td>
+            <td>%s</td>
+            <td>%s</td>
+            <td>%s</td>
+            <td>%s</td>
+            <td>%s</td>
+            <td>%s</td>
+            <td>%s</td>
+            <td><input type="button", value="添加", id="toAdd", name="toAdd"></td>
+        </tr>
+        """ % row
+
     # 替换变量
     response_body = file_data.replace("{%content%}", data)
     # 这里返回的是一个元组，括号可以省略
