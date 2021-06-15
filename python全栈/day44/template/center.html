@@ -1,23 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>个人中心 - 个人选股系统 V1.0</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.get("center_data.html", function(data) {
+                // ajax 成功回调函数
+                // 获取table标签
+                var $table = $(".table");
+                // 如果指定了返回数据解析方式是json，那data就是一个js对象。
+                for (var i = 0; i < data.length; i++){
+                    var oCenterData  = data[i];
+                    var oTr = '<tr>' +   
+                                '<td>' + oCenterData.code + '</td>' +
+                                '<td>' + oCenterData.chg + '</td>' +
+                                '<td>' + oCenterData.turnover + '</td>' +
+                                '<td>' + oCenterData.price + '</td>' +
+                                '<td>' + oCenterData.highs + '</td>' +
+                                '<td>' + oCenterData.note_info + '</td>' + 
+                                '<td><input type="button" class="btn btn-default btn-xs"></td>' +
+                                '<td><input type="button" value="删除" id="toDel" name="toDel"></td>' +
+                                '</tr>'
+                    // 给table标签追加每一行tr标签
+                    $table.append(oTr)
+                }
+
+            }, "json");
+            // $("input[name='toDel']").each(function(){
+            //     var currentAdd = $(this);
+            //     currentAdd.click(function(){
+            //         code = $(this).attr("systemIdValue");
+            //         alert("/del/" + code + ".html");
+            //         $.get("/del/" + code + ".html", function(data, status){
+            //             alert("数据：" + data + "\n状态" + status);
+            //         });
+            //         window.location.reload()
+            //     });
+            // });
+        });
+    </script>
 </head>
 <body>
     <a href="index.html">前往主页</a>
     <!-- border-collapse: collapse 表示边框合并 -->
-    <table style="border: 1px solid black; border-collapse: collapse;" >
+    <table class="table" >
         <tr>
-            <th style="border: 1px solid black">姓名</th>
-            <th style="border: 1px solid black">年龄</th>
+            <th>code</th>
+            <th>chg</th>
+            <th>turnover</th>
+            <th>price</th>
+            <th>highs</th>
+            <th>note_info</th>
         </tr>
-        <tr>
-            <td style="border: 1px solid black">张三</td>
-            <td style="border: 1px solid black">22</td>
-        </tr>
-        
+        <!-- <tr>
+            {%content%}
+        </tr> -->
     </table>
 </body>
 </html>

@@ -58,12 +58,12 @@ def center_data():
                             "highs":str(row[5]),
                             "note_info":row[6]
                         } for row in result]
-    print(center_data_list)
+    # print(center_data_list)
     # 把列表字典转换成json
     # 在控制台显示中文，ensure_ascci=False
     json_str = json.dumps(center_data_list, ensure_ascii=False)
-    print(json_str)
-    print(type(json_str))
+    # print(json_str)
+    # print(type(json_str))
     # 关闭游标
     cursor.close()
     # 关闭连接
