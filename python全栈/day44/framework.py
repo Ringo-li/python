@@ -1,5 +1,6 @@
 import json
 import pymysql
+import logging
 
 """web框架专门处理动态资源请求"""
 
@@ -30,44 +31,49 @@ def route(path):
 def center_data():
     # 从数据库中取数据，然后把数据转换成json格式
     # 创建数据库连接对象
-    conn = pymysql.connect(host="192.168.33.13",
-                            port=3306,
-                            user="root",
-                            password="123456",
-                            database="stock_db",
-                            charset="utf8")
-    # 获取游标
-    cursor = conn.cursor()
-    # 准备sql
-    sql = """
-     select i.code, i.short, i.chg, i.turnover, i.price, i.highs, f.note_info  
-     from info i inner join focus f on i.id=f.info_id;
-    """
-    # 执行sql
-    cursor.execute(sql)
-    # 获取结果
-    result = cursor.fetchall()
-    print(result)
-    # 将获得的元组转成列表字典
-    center_data_list = [{
-                            "code":row[0],
-                            "short":row[1],
-                            "chg":row[2],
-                            "turnover":row[3],
-                            "price":str(row[4]),
-                            "highs":str(row[5]),
-                            "note_info":row[6]
-                        } for row in result]
-    # print(center_data_list)
-    # 把列表字典转换成json
-    # 在控制台显示中文，ensure_ascci=False
-    json_str = json.dumps(center_data_list, ensure_ascii=False)
-    # print(json_str)
-    # print(type(json_str))
-    # 关闭游标
-    cursor.close()
-    # 关闭连接
-    conn.close()
+    try:
+        conn = pymysql.connect(host="192.168.33.13",
+                                port=3306,
+                                user="root",
+                                password="123456",
+                                database="stock_db",
+                                charset="utf8")
+        # 获取游标
+        cursor = conn.cursor()
+        # 准备sql
+        sql = """
+        select i.code, i.short, i.chg, i.turnover, i.price, i.highs, f.note_info  
+        from info i inner join focus f on i.id=f.info_id;
+        """
+        # 执行sql
+        cursor.execute(sql)
+        # 获取结果
+        result = cursor.fetchall()
+        print(result)
+            # 将获得的元组转成列表字典
+        center_data_list = [{
+                                "code":row[0],
+                                "short":row[1],
+                                "chg":row[2],
+                                "turnover":row[3],
+                                "price":str(row[4]),
+                                "highs":str(row[5]),
+                                "note_info":row[6]
+                            } for row in result]
+        # print(center_data_list)
+        # 把列表字典转换成json
+        # 在控制台显示中文，ensure_ascci=False
+        json_str = json.dumps(center_data_list, ensure_ascii=False)
+        # print(json_str)
+        # print(type(json_str))
+        # 关闭游标
+        cursor.close()
+        # 关闭连接
+        conn.close()
+    except:
+        logging.error("数据库连接失败")
+        exit(1)
+
     # 页面访问
     # 状态信息
     status = "200 OK"
@@ -88,27 +94,30 @@ def index():
         file_data = file.read()
     # 2.查询数据库，替换模板中的变量（{%content%}
     # 创建连接对象
-    conn = pymysql.connect(host="192.168.33.13",
-                            port=3306,
-                            user="root",
-                            password="123456",
-                            database="stock_db",
-                            charset="utf8")
+    try:
+        conn = pymysql.connect(host="192.168.33.13",
+                                port=3306,
+                                user="root",
+                                password="123456",
+                                database="stock_db",
+                                charset="utf8")
 
-    # 获取游标
-    cursor = conn.cursor()
-    # 准备sql
-    sql = "select * from info;"
-    # 执行sql
-    cursor.execute(sql)
-    # 获取查询结果
-    result = cursor.fetchall()
-    print(result)
-    # 关闭游标
-    cursor.close()
-    # 关闭连接
-    conn.close()
-
+        # 获取游标
+        cursor = conn.cursor()
+        # 准备sql
+        sql = "select * from info;"
+        # 执行sql
+        cursor.execute(sql)
+        # 获取查询结果
+        result = cursor.fetchall()
+        print(result)
+        # 关闭游标
+        cursor.close()
+        # 关闭连接
+        conn.close()
+    except:
+        logging.error("数据库连接失败")
+        exit(1)
     # 遍历每一条数据，完成数据的tr标签封装
     data = ""
     for row in result:
@@ -183,6 +192,7 @@ def handle_request(env):
     else:
         # 没有资源数据，返回404
         result = not_found()
+        logging.error("没有设置相关的路由信息" + request_path)
         return result
 
 if __name__ == "__main__":

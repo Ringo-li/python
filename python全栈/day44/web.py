@@ -3,6 +3,12 @@ import os
 import threading
 import sys
 import framework
+import logging
+
+logging.basicConfig(level=logging.DEBUG,
+                    format="%(asctime)s-%(filename)s[lineno:%(lineno)d]-%(levelname)s-%(message)s",
+                    filename="longging.log",
+                    filemode="a")
 
 # http协议的web服务器类
 class HttpWebServer(object):
@@ -41,6 +47,7 @@ class HttpWebServer(object):
         # 判断是否是动态资源请求，判断后缀.html为动态资源请求
         if request_path.endswith(".html"):
             """动态资源请求"""
+            logging.info("动态资源请求" + request_path)
             # 动态资源请求交由web框架处理，需要把请求参数传给web框架
             # 准备给web框架的参数信息都要放到字典里
             env = {
@@ -73,6 +80,7 @@ class HttpWebServer(object):
         
         else:
             """静态资源请求"""
+            logging.info("静态资源请求" + request_path)
 
             # 判断文件是否存在
             # 1.os.path.exits
@@ -145,11 +153,13 @@ def main():
     params = sys.argv
     if len(params) != 2:
         print("执行命令格式如下：python XXX.py 9000")
+        logging.warning("在终端执行程序参数不等于2")
         return
     
     # 判断第二个参数是否时数字组成
     if not params[1].isdigit():
         print("执行命令格式如下：python XXX.py 9000")
+        logging.warning("在终端执行程序参数类型不是数字")
         return
     
     # 代码执行到此，说明命令行参数个数一定是2并且都是数字
