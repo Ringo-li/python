@@ -1,0 +1,70 @@
+import re
+
+# . 匹配单个任意字符（出来换行符\n）
+match_obj = re.match("c.o", "cfo")
+if match_obj:
+    result = match_obj.group()
+    print(result)
+else:
+    # 匹配失败返回none
+    print("fail to match")
+
+# [] 匹配中括号中列举的字符
+match_obj = re.match("w[1ls].q", "w1sq")
+if match_obj:
+    result = match_obj.group()
+    print(result)
+
+else:
+    print("fail to match")
+
+# \d => [0-9] => [0123456789]
+match_obj = re.match("\d\d", "30")
+if match_obj:
+    result = match_obj.group()
+    print(result)
+
+else:
+    print("fail to match")
+
+# \D 匹配非数字字符
+match_obj = re.match("\D\D\D", "+ 的")
+if match_obj:
+    result = match_obj.group()
+    print(result)
+
+else:
+    print("fail to match")
+
+# \s 匹配空格或者tab
+match_obj = re.match("\s\s", "   ")
+if match_obj:
+    result = match_obj.group()
+    print(result)
+else:
+    print("match failed")
+
+# \S 匹配非空白
+match_obj = re.match("\S\S\S\S", "d的+?")
+if match_obj:
+    result = match_obj.group()
+    print(result)
+else:
+    print("match failed")
+
+# \w 匹配字母、数字、下划线、汉字
+match_obj = re.match("\w\w\w\w", "d的2_")
+if match_obj:
+    result = match_obj.group()
+    print(result)
+else:
+    print("match failed")
+
+# \W 匹配非字母、数字、下划线、汉字
+match_obj = re.match("\W\W\W\W", "? +&")
+if match_obj:
+    result = match_obj.group()
+    print(result)
+else:
+    print("match failed")
+
