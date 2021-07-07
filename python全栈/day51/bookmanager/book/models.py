@@ -31,4 +31,3 @@ class PeopleInfo(models.Model):
     gender = models.BooleanField()
     # 外键
     book = models.ForeignKey(BookInfo, on_delete=models.CASCADE)
-
