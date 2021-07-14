@@ -25,7 +25,7 @@ SECRET_KEY = '8axha7(t^6-jch7byat_!qc_*l$_^+fw5hax=x+139-j_vdgv('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.33.13']
+ALLOWED_HOSTS = ['192.168.33.3']
 
 
 # Application definition
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'book',
+    'book.apps.BookConfig',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'bookmanager00.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'template')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-Hans'
+LANGUAGE_CODE = 'zh-Hans'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -121,6 +121,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # 告知系统静态文件位置
-STATIC_DIRS = [
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
