@@ -39,7 +39,7 @@ class BookInfo(models.Model):
         # 修改对象
         db_table = 'bookinfo'
         # 修改表名
-        verbose_name = '哇哈哈'
+        verbose_name = '书籍信息'
 
     def __str__(self):
         return self.name
@@ -57,7 +57,7 @@ class PeopleInfo(models.Model):
     gender = models.SmallIntegerField(choices=GENDER_CHOISE, default=0, verbose_name='性别')
     description = models.CharField(max_length=200, null=True, verbose_name='描述')
     book = models.ForeignKey(BookInfo, on_delete=models.CASCADE, verbose_name='书籍')
-    # is_delete = models.BooleanField(default=False, verbose_name='逻辑删除')
+    is_delete = models.BooleanField(default=False, verbose_name='逻辑删除')
 
     class Meta:
         db_table = 'peopleinfo'
