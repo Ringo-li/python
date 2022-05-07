@@ -1,38 +1,24 @@
-nlst = []
-while True:
-    try:
-        nlst.append(int(input()))
-    except:
-        count = 0
-        positive = []
-        for i in nlst:
-            if i < 0:
-                count += 1
-            else:
-                positive.append(i)
-        print(count)
-        if sum(positive):
-            print('{:.1f}'.format(sum(positive)/len(positive)))
-        else:
-            print(0.0)
+candidates = [2,3,6,7]
+target = 7
 
-# num_list = []
-# while True:
+path = []
+result = []
+# 回溯，在for循环中嵌套递归
+def backtracking(nums, target, startindex):
+    # 1.确定参数，数组，startindex，
+    # 2.确定终止条件和收获返回值
+    if sum(path) > target:
+        return
+    if sum(path) == target:
+        result.append(path.copy())
+        return
 
-#     try:
+    # 3.确定单层逻辑
+    for i in range(startindex, len(nums)):
+        path.append(nums[i])
+        backtracking(nums, target, i)
+        path.pop()
+
+backtracking(candidates, 7, 0)
+print(result)
         
-#         num_list.append(int(input()))
-#     except:
-#         print(num_list)
-        # over_list, down_list = [], []
-#         for i in num_list:
-#             if i < 0:
-#                 down_list.append(i)
-#             else:
-#                 over_list.append(i)
-#         print(len(down_list))
-#         if len(over_list) > 0:
-#             print(round(sum(over_list) /len(over_list), 1))
-#         else:
-#             print(0.0)
-#         break
