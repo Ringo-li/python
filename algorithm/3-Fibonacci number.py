@@ -1,7 +1,6 @@
 # 斐波那契数列：0 1 1 2 3 5 8 13
 # f(n) = f(n-1) + f(n-2)
 import time
-from turtle import end_fill
 
 def f(n):
     if n == 1:

@@ -1,8 +1,5 @@
 # 线性搜索：一种暴力搜索方式，遍历所有情况
 # 例题：开平方
-from turtle import right
-
-
 def line_sqrt(n):
     for i in range(n):
         if i * i == n:

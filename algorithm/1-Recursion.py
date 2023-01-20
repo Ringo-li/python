@@ -13,6 +13,3 @@ def f(n):
     else:
         return n*f(n-1)
 print(f(4))
-from test import fibonacci_search
-
-print(fibonacci_search([4, 5, 6, 7], -10))

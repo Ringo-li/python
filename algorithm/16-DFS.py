@@ -8,7 +8,7 @@ def dfs(nums, p, t=0, nb=set()):
     if nums[p - step] == t or nums[p + step] == t:
         return p - step or p + step
     else:
-        return dfs(nums, p - step , t) or f(nums, p + step , t)
+        return dfs(nums, p - step , t) or dfs(nums, p + step , t)
 
 print(dfs(nums, pst))
 
